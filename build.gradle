@@ -7,6 +7,8 @@ plugins {
 def selenideVersion = "7.8.1"
 def restAssuredVersion = "5.5.0"
 def allureVersion = "2.29.1"
+def appiumVersion = "9.0.0"
+def seleniumVersion = "4.14.0"
 
 allure {
     report {
@@ -27,28 +29,29 @@ repositories {
 }
 
 dependencies {
-    // Selenide + Allure + JUnit + SLF4J + REST-assured + WebDriverManager
+    implementation "io.qameta.allure:allure-java-commons:$allureVersion"
+
+    // Основные библиотеки для компиляции и выполнения
+    implementation "io.appium:java-client:$appiumVersion"
+    implementation "org.seleniumhq.selenium:selenium-java:$seleniumVersion"
+    implementation 'org.aeonbits.owner:owner:1.0.12'
+
+    // Для тестов
     testImplementation "com.codeborne:selenide:$selenideVersion"
     testImplementation "io.qameta.allure:allure-selenide:$allureVersion"
     testImplementation "io.qameta.allure:allure-rest-assured:$allureVersion"
+    testImplementation "io.qameta.allure:allure-junit5:2.21.0"
     testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
     testImplementation "org.slf4j:slf4j-simple:2.0.7"
     testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
     testImplementation "io.rest-assured:json-schema-validator:$restAssuredVersion"
     testImplementation "io.github.bonigarcia:webdrivermanager:6.1.0"
-    testImplementation 'org.aeonbits.owner:owner:1.0.12'
-    implementation 'org.aeonbits.owner:owner:1.0.12'
-
-    // Appium Java Client
-    testImplementation "io.appium:java-client:9.0.0"
-
-    // Явно подтягиваем Selenium 4.14.0 (совместимо с Appium 9.0.0)
-    testImplementation "org.seleniumhq.selenium:selenium-java:4.14.0"
 }
-// Чтобы ни один из модулей (Selenide, WebDriverManager и т. д.) не потянул свою версию Selenium выше 4.14.0
+
 configurations.all {
-    resolutionStrategy.force "org.seleniumhq.selenium:selenium-java:4.14.0"
+    resolutionStrategy.force "org.seleniumhq.selenium:selenium-java:$seleniumVersion"
 }
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
@@ -57,11 +60,4 @@ tasks.withType(Test) {
     useJUnitPlatform()
     systemProperties(System.getProperties())
     systemProperty 'allure.results.directory', "$buildDir/allure-results"
-}
-
-
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
 }
