@@ -6,6 +6,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import utils.BrowserstackHelper;
 
+
 public class AttachmentHelper {
 
     @Attachment(value = "Screenshot", type = "image/png")

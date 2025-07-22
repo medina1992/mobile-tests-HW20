@@ -10,9 +10,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import tests.utils.AttachmentHelper;
+
 
 import static com.codeborne.selenide.Selenide.*;
+import utils.AttachmentHelper;
 
 public class TestBase {
 
