@@ -1,9 +1,10 @@
-package tests.utils;
+package utils;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import utils.BrowserstackHelper;
 
 public class AttachmentHelper {
 
@@ -11,7 +12,6 @@ public class AttachmentHelper {
     public static byte[] attachScreenshot(AndroidDriver driver) {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
-
     @Attachment(value = "Page Source", type = "text/xml")
     public static String attachPageSource(AndroidDriver driver) {
         return driver.getPageSource();
@@ -23,8 +23,10 @@ public class AttachmentHelper {
     }
 
     @Attachment(value = "BrowserStack video", type = "text/html", fileExtension = ".html")
-    public static String attachVideoLink(String sessionId) {
-        String videoUrl = "https://app-automate.browserstack.com/sessions/" + sessionId + ".json";
-        return "<html><body><a href='" + videoUrl + "' target='_blank'>Watch Video</a></body></html>";
+    public static String attachVideo(String sessionId) {
+        String videoUrl = BrowserstackHelper.getBrowserstackVideoUrl(sessionId);
+        return "<html><body><video width='100%' height='500' controls><source src='"
+                + videoUrl
+                + "' type='video/mp4'></video></body></html>";
     }
 }

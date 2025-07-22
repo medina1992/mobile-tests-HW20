@@ -33,16 +33,14 @@ public class TestBase {
     void addAttachments() {
         AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
 
-        // 🔽 Вызов методов для Allure
         AttachmentHelper.attachScreenshot(driver);
         AttachmentHelper.attachPageSource(driver);
         AttachmentHelper.attachLogs("Test finished on device: " + driver.getCapabilities().getCapability("deviceName"));
 
-        // 🔽 Вставка ссылки на видео сессии из BrowserStack
         String sessionId = ((RemoteWebDriver) driver).getSessionId().toString();
-        AttachmentHelper.attachVideoLink(sessionId);
+        AttachmentHelper.attachVideo(sessionId);
 
-        // ❗ Только после всех аттачей
+
         closeWebDriver();
     }
 }
